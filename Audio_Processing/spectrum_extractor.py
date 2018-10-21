@@ -1,4 +1,4 @@
-POWER_SPECTRUM_FLOOR = 1e-8
+POWER_SPECTRUM_FLOOR = 1e-3
 
 from numpy import *
 
@@ -49,6 +49,7 @@ class Spectrum_Extractor(object):
             frame[1:] -= frame[:-1] * 0.95
             # Power spectrum
             X = abs(fft.fft(frame, self.FFT_SIZE)[:self.FFT_SIZE / 2 + 1]) ** 2
+            X[X < POWER_SPECTRUM_FLOOR] = POWER_SPECTRUM_FLOOR  # Avoid zero
             # Mel filtering, logarithm
             if self.mel:
                 X_mel=dot(self.M,X)
@@ -56,8 +57,10 @@ class Spectrum_Extractor(object):
                 X_mel=log(X)
                 X = dot(self.D, log(dot(self.M, X)))
             feature.append(X)
-        feature = row_stack(feature)
+        feature = array(feature)
         # Mean & variance normalization
+
+        return feature
         if feature.shape[0] > 1 and self.normalize:
             mu = mean(feature, axis=0)
             #print "mean: ", mu
