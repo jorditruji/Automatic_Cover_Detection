@@ -45,7 +45,7 @@ class CQT_Chroma_Extractor(object):
             # Pre-emphasis
             frame[1:] -= frame[:-1] * 0.95
             #Librosa CQT 
-            #TODO!!!!!!!!
+            #TODO!!!!!!!! http://librosa.github.io/librosa/generated/librosa.feature.chroma_cqt.html#librosa.feature.chroma_cqt
 
             feature.append(feature)
         feature = row_stack(feature)
