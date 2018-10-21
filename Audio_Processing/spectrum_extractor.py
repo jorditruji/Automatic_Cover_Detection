@@ -52,7 +52,7 @@ class Spectrum_Extractor(object):
             # Mel filtering, logarithm
             if self.mel:
                 X_mel=dot(self.M,X)
-                X[X < POWER_SPECTRUM_FLOOR] = POWER_SPECTRUM_FLOOR  # Avoid zero
+                #X[X < POWER_SPECTRUM_FLOOR] = POWER_SPECTRUM_FLOOR  # Avoid zero
                 X_mel=log(X)
                 X = dot(self.D, log(dot(self.M, X)))
             feature.append(X)
