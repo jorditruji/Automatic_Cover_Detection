@@ -41,9 +41,12 @@ class Chroma_Extractor(object):
             # Pre-emphasis
             frame[1:] -= frame[:-1] * 0.95
             #Librosa chromas
-            frame=librosa.feature.chroma_stft(y=frame, sr=self.fs, n_fft=self.FFT_size, n_chroma=self.n_bands)
-            feature.append(feature)
-        feature = row_stack(feature)
+            S = abs(librosa.stft(frame, n_fft=4096))**2
+            chroma = librosa.feature.chroma_stft(S=S, sr=self.fs)
+            #frame=librosa.feature.chroma_stft(y=frame, sr=self.fs,  n_chroma=self.n_bands)
+            feature.append(chroma)
+        feature = array(feature)
+        return feature
         # Mean & variance normalization
         if feature.shape[0] > 1 and self.normalize:
             mu = mean(feature, axis=0)
@@ -54,6 +57,6 @@ class Chroma_Extractor(object):
             #print "abs: ", amax(feature,axis=0)-amin(feature,axis=0)
             #print "max: ", amax(feature,axis=0)
 
-        return feature
+        return transpose(feature)
 
 
