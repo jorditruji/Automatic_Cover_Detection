@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 POWER_SPECTRUM_FLOOR = 1e-3
+=======
+POWER_SPECTRUM_FLOOR = 1e-8
+>>>>>>> 411f71b0e3852d4ca5e979dc3fccf64df52a6212
 
 from numpy import *
 
@@ -39,7 +43,10 @@ class Spectrum_Extractor(object):
         if signal.ndim > 1:
             print "INFO: Input signal has more than 1 channel; the channels will be averaged."
             signal = mean(signal, axis=1)
+<<<<<<< HEAD
         print signal.shape
+=======
+>>>>>>> 411f71b0e3852d4ca5e979dc3fccf64df52a6212
         frames = (len(signal) - self.FRAME_LEN) / self.FRAME_SHIFT + 1
         feature = []
         for f in xrange(frames):
@@ -50,6 +57,7 @@ class Spectrum_Extractor(object):
             frame[1:] -= frame[:-1] * 0.95
             # Power spectrum
             X = abs(fft.fft(frame, self.FFT_SIZE)[:self.FFT_SIZE / 2 + 1]) ** 2
+<<<<<<< HEAD
             X[X < POWER_SPECTRUM_FLOOR] = POWER_SPECTRUM_FLOOR  # Avoid zero
             # Mel filtering, logarithm
             if self.mel:
@@ -62,6 +70,17 @@ class Spectrum_Extractor(object):
         # Mean & variance normalization
 
         return feature
+=======
+            # Mel filtering, logarithm
+            if self.mel:
+                X_mel=dot(self.M,X)
+                X[X < POWER_SPECTRUM_FLOOR] = POWER_SPECTRUM_FLOOR  # Avoid zero
+                X_mel=log(X)
+                X = dot(self.D, log(dot(self.M, X)))
+            feature.append(X)
+        feature = row_stack(feature)
+        # Mean & variance normalization
+>>>>>>> 411f71b0e3852d4ca5e979dc3fccf64df52a6212
         if feature.shape[0] > 1 and self.normalize:
             mu = mean(feature, axis=0)
             #print "mean: ", mu
