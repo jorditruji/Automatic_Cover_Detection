@@ -1,4 +1,6 @@
-POWER_SPECTRUM_FLOOR = 1e-3
+
+POWER_SPECTRUM_FLOOR = 1e-8
+
 
 from numpy import *
 
@@ -39,7 +41,6 @@ class Spectrum_Extractor(object):
         if signal.ndim > 1:
             print "INFO: Input signal has more than 1 channel; the channels will be averaged."
             signal = mean(signal, axis=1)
-        print signal.shape
         frames = (len(signal) - self.FRAME_LEN) / self.FRAME_SHIFT + 1
         feature = []
         for f in xrange(frames):
@@ -50,6 +51,7 @@ class Spectrum_Extractor(object):
             frame[1:] -= frame[:-1] * 0.95
             # Power spectrum
             X = abs(fft.fft(frame, self.FFT_SIZE)[:self.FFT_SIZE / 2 + 1]) ** 2
+
             X[X < POWER_SPECTRUM_FLOOR] = POWER_SPECTRUM_FLOOR  # Avoid zero
             # Mel filtering, logarithm
             if self.mel:
@@ -62,6 +64,8 @@ class Spectrum_Extractor(object):
         # Mean & variance normalization
 
         return feature
+
+        # Mean & variance normalization
         if feature.shape[0] > 1 and self.normalize:
             mu = mean(feature, axis=0)
             #print "mean: ", mu
