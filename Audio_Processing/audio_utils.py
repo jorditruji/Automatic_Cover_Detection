@@ -25,3 +25,7 @@ def abs_normalize_wave_minmax(wavdata):
 		return x_n
 	except:
 		return
+
+def load_audio(file):
+	fm, wav_data = wavfile.read(file)
+	return fm, wav_data
