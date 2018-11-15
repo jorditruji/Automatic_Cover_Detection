@@ -129,9 +129,10 @@ def test_projection_TSNE(wav_file='Tests/Amy_Winehouse_-_You_re_Wondering_Now-9b
 	features=extractor.extract(wav_data)
 	features= features.squeeze()
 	print features.shape
-	tsne = TSNE(n_components=2, verbose=1, perplexity=40, n_iter=300)
-	tsne_results = tsne.fit_transform(np.transpose(features))
+	tsne = TSNE(n_components=2, verbose=1, perplexity=10, n_iter=250)
+	tsne_results = tsne.fit_transform(np.transpose(features[:,10:5000]))
 	print tsne_results
+	plt.scatter(tsne_results[:,0], tsne_results[:,1])
 
 
 def compare_wondering(wav_files=['Tests/Amy_Winehouse_-_You_re_Wondering_Now-9b3lo5a3iEk.wav','Tests/The_Specials_-_You_re_Wondering_Now-xEPfSWk0Lsw.wav']):
@@ -244,6 +245,6 @@ def compare_wondering(wav_files=['Tests/Amy_Winehouse_-_You_re_Wondering_Now-9b3
 #test_spectogram()
 #test_beats()
 #test_beat_chroma()
-#test_projection_TSNE()
-compare_wondering()
+test_projection_TSNE()
+#compare_wondering()
 plt.show()

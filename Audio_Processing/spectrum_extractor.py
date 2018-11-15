@@ -62,10 +62,6 @@ class Spectrum_Extractor(object):
             feature.append(X)
         feature = array(feature)
         # Mean & variance normalization
-
-        return feature
-
-        # Mean & variance normalization
         if feature.shape[0] > 1 and self.normalize:
             mu = mean(feature, axis=0)
             #print "mean: ", mu
