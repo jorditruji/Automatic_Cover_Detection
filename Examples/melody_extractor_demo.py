@@ -35,7 +35,7 @@ plt.ylabel('Frequency (Hz)')
 
 # A clearer option is to get rid of the negative values before plotting
 melody_pos = melody[:]
-melody_pos[melody<=0] = 0
+melody_pos[melody<=0] = None
 plt.figure(figsize=(18,6))
 plt.plot(timestamps, melody_pos)
 plt.xlabel('Time (s)')
@@ -45,7 +45,7 @@ plt.ylabel('Frequency (Hz)')
 # This especially makes sense if you are comparing two or more pitch sequences 
 # to each other (e.g. comparing an estimate against a reference).
 melody_cents = 1200*np.log2(melody/55.0)
-melody_cents[melody<=0] = 0
+melody_cents[melody<=0] = None
 plt.figure(figsize=(18,6))
 plt.plot(timestamps, melody_cents)
 plt.xlabel('Time (s)')
