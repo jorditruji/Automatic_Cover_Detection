@@ -16,6 +16,6 @@ The structure of the song can be described as a chord progression, the most simi
 
 Implementation based on: https://librosa.github.io/librosa_gallery/auto_examples/plot_chroma.html
 
-![alt text](Automatic_Cover_Detection/Images/enhanced_chromas.png)
+![alt text](https://github.com/jorditruji/Automatic_Cover_Detection/blob/master/Images/enhanced_chromas.png)
 
 
