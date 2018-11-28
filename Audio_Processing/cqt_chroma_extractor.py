@@ -2,6 +2,7 @@ from __future__ import print_function
 import numpy as np
 import scipy
 import librosa
+import time
 
 #Based on 
 """
@@ -40,9 +41,10 @@ class CQT_Chroma_Extractor(object):
         mel = Convert to mel scale
         normalize = normalize each freq bin aling frames
     """
-    def __init__(self, fs, bins_per_octave=12*3, win_shift_ms=10, FFT_SIZE=512, n_bands=12,mel=False, normalize=True):
+    def __init__(self, fs, bins_per_octave=12*3, separate=True):
         self.fs = fs
-        self.bins_per_octave
+        self.bins_per_octave = bins_per_octave 
+        self.separate=separate
 
 
 
@@ -50,9 +52,16 @@ class CQT_Chroma_Extractor(object):
         """
         Extract Chromas of the sound x in numpy array format.
         """
+        start_time=time.time()
         if signal.ndim > 1:
-            print "INFO: Input signal has more than 1 channel; the channels will be averaged."
-            signal = mean(signal, axis=1)
+            signal = np.mean(signal, axis=1)
+            print ("INFO: Input signal has more than 1 channel, the channels will be averaged.")
+
+
+        # Remove percussion if separate:
+        if self.separate:
+            signal, percussion = librosa.effects.hpss(signal)
+
         #isolating the harmonic component.we'll use a large margin for separating harmonics from percussives
         y_harm = librosa.effects.harmonic(y=signal, margin=8)
         chroma_os_harm = librosa.feature.chroma_cqt(y=y_harm, sr=self.fs, bins_per_octave=self.bins_per_octave)
@@ -66,7 +75,7 @@ class CQT_Chroma_Extractor(object):
         # Local discontinuities and transients can be suppressed by
         # using a horizontal median filter.
         chroma_smooth = scipy.ndimage.median_filter(chroma_filter, size=(1, 9))
-
+        print("--- %s seconds --- for chroma" % (time.time() - start_time))
         return chroma_smooth
 
 

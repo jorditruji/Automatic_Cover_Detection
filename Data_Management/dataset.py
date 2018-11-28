@@ -25,8 +25,6 @@ class Dataset(object):
 		for song in song_names:
 			song_name=song.split('/')[-2]
 			data_dict[song_name]=glob(self.path+""+song_name+"/*.mp3")
-			print glob(self.path+""+song_name+"*.mp3")
-			print self.path+""+song_name+"*.mp3"
 		return data_dict,n_songs,n_versions
 
 
