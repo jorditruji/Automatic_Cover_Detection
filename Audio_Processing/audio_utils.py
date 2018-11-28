@@ -1,5 +1,6 @@
 import librosa
 import numpy as np
+import scipy.io.wavfile as wavfile
 
 
 def static_tempo(signal, fs):

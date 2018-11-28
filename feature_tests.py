@@ -1,5 +1,5 @@
 from Audio_Processing.spectrum_extractor import *
-from Audio_Processing.chroma_extractor import *
+from Audio_Processing.cqt_chroma_extractor import *
 import librosa
 import librosa.display
 import numpy as np
@@ -45,7 +45,7 @@ def test_chroma(wav_file='Tests/Amy_Winehouse_-_You_re_Wondering_Now-9b3lo5a3iEk
 	# Create feature ectractor
 	print wav_data.shape
 
-	extractor=Chroma_Extractor(fm)
+	extractor=CQT_Chroma_Extractor(fm)
 	features=extractor.extract(wav_data)
 	features= features.squeeze()
 	print features.shape
@@ -84,7 +84,7 @@ def test_beat_chroma(wav_file='Tests/Amy_Winehouse_-_You_re_Wondering_Now-9b3lo5
 	# Create feature ectractor
 	print wav_data.shape
 	beat=int(static_tempo(wav_data,fm))
-	extractor=Chroma_Extractor(fm,beat_based=True,beat=beat)
+	extractor=CQT_Chroma_Extractor(fm,beat_based=True,beat=beat)
 	features=extractor.extract(wav_data)
 	features= features.squeeze()
 
@@ -125,7 +125,7 @@ def test_projection_TSNE(wav_file='Tests/Amy_Winehouse_-_You_re_Wondering_Now-9b
 	# Create feature ectractor
 
 
-	extractor=Chroma_Extractor(fm)
+	extractor=CQT_Chroma_Extractor(fm)
 	features=extractor.extract(wav_data)
 	features= features.squeeze()
 	print features.shape
@@ -170,7 +170,7 @@ def compare_wondering(wav_files=['Tests/Amy_Winehouse_-_You_re_Wondering_Now-9b3
 
 
 	# Chromas
-	extractor1=Chroma_Extractor(fm1)
+	extractor1=CQT_Chroma_Extractor(fm1)
 	features1=extractor1.extract(wav_data1)
 	features1= features1.squeeze()
 	max_chord1=np.max(features1, axis=0)
@@ -180,7 +180,7 @@ def compare_wondering(wav_files=['Tests/Amy_Winehouse_-_You_re_Wondering_Now-9b3
 
 	#features = np.array(features).transpose()
 	librosa.display.specshow(features1, y_axis='chroma', x_axis='time')
-	extractor2=Chroma_Extractor(fm2)
+	extractor2=CQT_Chroma_Extractor(fm2)
 	features2=extractor2.extract(wav_data2)
 	features2= features2.squeeze()
 	max_chord2=np.max(features2, axis=0)
