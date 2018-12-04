@@ -29,23 +29,25 @@ for song in dataset.data.keys():
 	paths = dataset.data[song]
 
 	for path in paths:
-		feature_object={}
-		mp3_to_wav(path)
-		path_bo=path.replace('mp3','wav')
-		fs, audio =  wavfile.read(str(path_bo))
-		audio = abs_normalize_wave_minmax(audio)
-		# Update extractor fs
-		mel_extractor = Melody_Extractor(fs)
-		chroma_extract = CQT_Chroma_Extractor(fs)
+		if os.path.isfile(path.replace('.mp3','.npy'))== False:
+			print "Processing wav: {}".format(path.split('/')[-1])
+			feature_object={}
+			mp3_to_wav(path)
+			path_bo=path.replace('mp3','wav')
+			fs, audio =  wavfile.read(str(path_bo))
+			audio = abs_normalize_wave_minmax(audio)
+			# Update extractor fs
+			mel_extractor = Melody_Extractor(fs)
+			chroma_extract = CQT_Chroma_Extractor(fs)
 
-		# Extract Features
-		melody , times = mel_extractor.extract(audio)
-		chroma = chroma_extract.extract(audio)
+			# Extract Features
+			melody , times = mel_extractor.extract(audio)
+			chroma = chroma_extract.extract(audio)
 
-		# Save features
-		feature_object['melody'] = melody
-		feature_object['chroma'] = chroma
-		name=path.replace('.mp3','')
-		np.save(name, feature_object, allow_pickle=True, fix_imports=True)
+			# Save features
+			feature_object['melody'] = melody
+			feature_object['chroma'] = chroma
+			name=path.replace('.mp3','')
+			np.save(name, feature_object, allow_pickle=True, fix_imports=True)
 
 
