@@ -20,31 +20,51 @@ class Detector(object):
 	"""
 
 	def __init__(self, only_chroma = False, only_melody = False):
+		self.only_chroma = only_chroma
+		self.only_melody = only_melody
 
-
-	def compare(self, feat_song, feat_query):
+	def compare(self, feat_song, feat_query, subseq):
 		# Let's look for alignment:
-		D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=True)
-		dist = get_dist(feat_song[wp[0,:]], feat_query[wp[1,:]])
+
+		#For melodies, subseq= True
+		#For chromas, subseq = False
+		D, wp = librosa.sequence.dtw(feat_song[1000:2000], feat_query[1000:2000], subseq=subseq)
+		print('feat song shape:', feat_song.shape)
+		print('query song shape:', feat_query.shape)
+		print('wp shape:', wp.shape)
+		if subseq == True: #melodies
+			dist = self.get_dist(feat_song[wp[0,:]], feat_query[wp[1,:]])
+		if subseq == False: #chromas
+			dist = self.get_dist(feat_song[:,wp[:,0]], feat_query[:,wp[:,1]])
 		return dist
 
-	def get_dist(x,y):
-		# Efficient distance computation no loops ;) 
+	def get_dist(self, x, y):
+		# Efficient distance computation no loops ;)
 		return np.sqrt(np.dot(x, x) - 2 * np.dot(x, y) + np.dot(y, y))
 
 
 
+
+
 # main pseudocode
+#load file 1
+data_1 = np.load('Tests/creedence_clearwater_revival+Live_in_Europe+10-Proud_Mary.npy').item()
+melody_1 = data_1['melody']
+chroma_1 = data_1['chroma']
 
-1- feat1= np.load(fitxer1).item()
-2- feat2 = np.load(fitxer2.npy).item()
-
-melody_1=feat1['melody']
-^ igual 
+#load file 1
+data_2 = np.load('Tests/lloyd_cole_and_the_commotions+Rattlesnakes+03-Rattlesnakes.npy').item()
+melody_2 = data_2['melody']
+chroma_2 = data_2['chroma']
 
 
 
 detector =Detector()
 
-detector.compare(melody1, melody2)
-print ^ 
+#Comparing melodies
+dist_melody = detector.compare(melody_1, melody_2, subseq = True)
+print('distancia melody:', dist_melody)
+
+#Comparing chromas
+dist_chroma = detector.compare(chroma_1, chroma_2, subseq = False)
+print('distancia chroma:', dist_chroma)
