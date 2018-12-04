@@ -57,7 +57,7 @@ melody_1 = data_1['melody']
 chroma_1 = data_1['chroma']
 
 #load file 1
-data_2 = np.load('Tests/creedence_clearwater_revival+Live_in_Europe+10-Proud_Mary.npy').item()
+data_2 = np.load('Tests/lloyd_cole_and_the_commotions+Rattlesnakes+03-Rattlesnakes.npy').item()
 melody_2 = data_2['melody']
 chroma_2 = data_2['chroma']
 
