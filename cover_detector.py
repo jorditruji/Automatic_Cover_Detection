@@ -85,7 +85,7 @@ melody_1 = center_mel(np.expand_dims(data_1['melody'],axis=0))
 chroma_1 = data_1['chroma']
 
 
-data_2 = np.load('../coversongs/covers32k/Rattlesnakes/lloyd_cole_and_the_commotions+Rattlesnakes+03-Rattlesnakes.npy').item()
+data_2 = np.load('../coversongs/covers32k/Abracadabra/steve_miller_band+Steve_Miller_Band_Live_+09-Abracadabra.npy').item()
 melody_2 = center_mel(np.expand_dims(data_2['melody'],axis=0))
 chroma_2 = data_2['chroma']
 
@@ -103,7 +103,7 @@ dist_melody = detector.compare(np.expand_dims(melody_1,axis=0),np.expand_dims(me
 print('distancia melody:', dist_melody)
 
 
-dist_melody = detector.compare(chroma_1, chroma_2, subseq = True)
+dist_melody = detector.compare(chroma_2, chroma_2, subseq = True)
 print('distancia chroma:', dist_melody)
 
 
