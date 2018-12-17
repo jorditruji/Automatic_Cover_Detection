@@ -12,6 +12,9 @@ import matplotlib.pyplot as plt
 from sklearn.metrics.pairwise import euclidean_distances, paired_euclidean_distances
 from sklearn import preprocessing
 from scipy.spatial import distance
+from Data_Management.dataset import Dataset
+
+
 # Centering:
 def center_mel2(melody):
 	samples = melody.shape[1]
@@ -74,6 +77,64 @@ class Detector(object):
 
 
 
+# Instantiate main support classes
+dataset = Dataset()
+detector = Detector()
+
+# Sample data, not really shuffled ;)
+true_samples, false_samples = dataset.shuffle_data()
+
+count = 0
+# Intra class distances:
+for song_1,song_2 in true_samples:
+	# Load features 1
+	data_1 = np.load(song_1).item()
+	melody_1 = center_mel(np.expand_dims(data_1['melody'],axis=0))
+	chroma_1 = data_1['chroma']
+	# Load features 2
+	data_2 = np.load(song_2).item()
+	melody_2 = center_mel(np.expand_dims(data_2['melody'],axis=0))
+	chroma_2 = data_2['chroma']
+
+	# Comparing melodies
+	# Normalization
+	melody_1 = np.divide(melody_1-np.mean(melody_1),np.std(melody_1))
+	melody_2 = np.divide(melody_2-np.mean(melody_2),np.std(melody_2))
+
+	dist_melody = detector.compare(np.expand_dims(melody_1,axis=1),np.expand_dims(melody_2,axis=1), subseq = False)
+	print('distancia melody:', dist_melody)
+
+	dist_chroma = detector.compare(chroma_1, chroma_2, subseq = True)
+	print('distancia chroma:', dist_chroma)
+	np.save('intra_'+count, [dist_melody, dist_chroma])
+
+
+
+count = 0
+# Inter class distances:
+for song_1,song_2 in false_samples:
+	# Load features 1
+	data_1 = np.load(song_1).item()
+	melody_1 = center_mel(np.expand_dims(data_1['melody'],axis=0))
+	chroma_1 = data_1['chroma']
+	# Load features 2
+	data_2 = np.load(song_2).item()
+	melody_2 = center_mel(np.expand_dims(data_2['melody'],axis=0))
+	chroma_2 = data_2['chroma']
+
+	# Comparing melodies
+	# Normalization
+	melody_1 = np.divide(melody_1-np.mean(melody_1),np.std(melody_1))
+	melody_2 = np.divide(melody_2-np.mean(melody_2),np.std(melody_2))
+
+	dist_melody = detector.compare(np.expand_dims(melody_1,axis=1),np.expand_dims(melody_2,axis=1), subseq = False)
+	print('distancia melody:', dist_melody)
+
+	dist_chroma = detector.compare(chroma_1, chroma_2, subseq = True)
+	print('distancia chroma:', dist_chroma)
+	np.save('inter'+count, [dist_melody, dist_chroma])
+
+'''
 
 # main pseudocode
 #load file 1
@@ -108,7 +169,7 @@ print('distancia melody:', dist_melody)
 dist_melody = detector.compare(chroma_1, chroma_1, subseq = True)
 print('distancia chroma:', dist_melody)
 
-
+'''
 '''
 
 0,1,0,0
