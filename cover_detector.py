@@ -102,7 +102,8 @@ detector =Detector()
 #dist_chroma = detector.compare(chroma_1, chroma_2, subseq = False)
 #print('distancia chroma:', dist_chroma)
 #Comparing melodies
-
+print melody_1, 
+print "melody1"
 dist_melody = detector.compare(np.expand_dims(melody_1,axis=0),np.expand_dims(melody_2,axis=0), subseq = False)
 print('distancia melody:', dist_melody)
 
