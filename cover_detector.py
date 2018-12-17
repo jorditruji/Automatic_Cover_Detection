@@ -50,6 +50,7 @@ class Detector(object):
 		else:
 			feat_song=preprocessing.scale(feat_song)
 			feat_query=preprocessing.scale(feat_query)
+			print feat_song == feat_query
 			D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=subseq)
 			print('feat song shape:', np.max(feat_song,axis=0).shape)
 			print('query song shape:', np.max(feat_query,axis=0).shape)
