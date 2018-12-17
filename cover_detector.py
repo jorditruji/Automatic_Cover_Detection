@@ -26,12 +26,12 @@ class Detector(object):
 	def compare(self, feat_song, feat_query, subseq):
 		# Let's look for alignment:
 
-		#For melodies, subseq= True
-		#For chromas, subseq = False
-		D, wp = librosa.sequence.dtw(feat_song[1000:12000], feat_query[1000:12000], subseq=subseq)
-		#print('feat song shape:', feat_song.shape)
-		#print('query song shape:', feat_query.shape)
-		#print('wp shape:', wp.shape)
+		#For melodies, subseq= False
+		#For chromas, subseq = True
+		D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=subseq)
+		print('feat song shape:', feat_song.shape)
+		print('query song shape:', feat_query.shape)
+		print('wp shape:', wp.shape)
 		if subseq == True: #melodies
 			#feat_song = np.expand_dims(feat_song, axis=1)
 			#feat_query = np.expand_dims(feat_query, axis=1)
@@ -51,31 +51,33 @@ class Detector(object):
 		dist = np.sum(dist)
 		'''
 		dist = euclidean_distances(x,y)
-		return dist
+		return np.sum(dist)
 
 
 
 
 # main pseudocode
 #load file 1
-data_1 = np.load('/home/jordi/Desktop/coversongs/covers32k/Rattlesnakes/tori_amos+Strange_Little_Girls+06-Rattlesnakes.npy').item()
+
+data_1 = np.load('../coversongs/covers32k/Rattlesnakes/tori_amos+Strange_Little_Girls+06-Rattlesnakes.npy').item()
 melody_1 = data_1['melody']
 chroma_1 = data_1['chroma']
 
 
-data_2 = np.load('Tests/lloyd_cole_and_the_commotions+Rattlesnakes+03-Rattlesnakes.npy').item()
+data_2 = np.load('../coversongs/covers32k/Rattlesnakes/lloyd_cole_and_the_commotions+Rattlesnakes+03-Rattlesnakes.npy').item()
 melody_2 = data_2['melody']
 chroma_2 = data_2['chroma']
 
 #'Tests/lloyd_cole_and_the_commotions+Rattlesnakes+03-Rattlesnakes.npy'
 detector =Detector()
-plt.plot(melody_2)
-plt.show()
+
 #Comparing chromas
-dist_chroma = detector.compare(chroma_1, chroma_2, subseq = False)
-print('distancia chroma:', dist_chroma)
+#dist_chroma = detector.compare(chroma_1, chroma_2, subseq = False)
+#print('distancia chroma:', dist_chroma)
 #Comparing melodies
-dist_melody = detector.compare(melody_1, melody_2, subseq = True)
+dist_melody = detector.compare(melody_1,melody_1, subseq = False)
 print('distancia melody:', dist_melody)
 
 
+dist_melody = detector.compare(chroma_2, chroma_2, subseq = False)
+print('distancia chroma:', dist_melody)
