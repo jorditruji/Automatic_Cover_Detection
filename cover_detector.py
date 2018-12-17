@@ -16,10 +16,11 @@ from Data_Management.dataset import Dataset
 
 
 # Centering:
-def center_mel2(melody):
-	samples = melody.shape[1]
-	middle = samples/2
-	return melody[:,middle-6000:middle+6000]
+def crop(melody):
+	if melody.shape>40000:
+		return melody[0:40000]
+	else:
+		return melody
 
 # Centering:
 def center_mel(melody):
@@ -45,7 +46,7 @@ class Detector(object):
 		#For melodies, subseq= False
 		#For chromas, subseq = True
 		print " input 1 shape: {} \n".format(feat_song.shape)
-		print " input 1 shape: {}\n".format(feat_query.shape)
+		print " input 2 shape: {}\n".format(feat_query.shape)
 		if subseq:
 			D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=subseq)
 			dist=np.sum(paired_euclidean_distances(feat_song[:,wp[:,0]], feat_query[:,wp[:,1]]))
@@ -95,8 +96,8 @@ for song_1,song_2 in true_samples:
 
 	# Comparing melodies
 	# Normalization
-	melody_1 = np.divide(melody_1-np.mean(melody_1),np.std(melody_1))
-	melody_2 = np.divide(melody_2-np.mean(melody_2),np.std(melody_2))
+	melody_1 = crop(np.divide(melody_1-np.mean(melody_1),np.std(melody_1)))
+	melody_2 = crop(np.divide(melody_2-np.mean(melody_2),np.std(melody_2)))
 
 	dist_melody = detector.compare(np.expand_dims(melody_1,axis=1),np.expand_dims(melody_2,axis=1), subseq = False)
 	print('distancia melody:', dist_melody)
