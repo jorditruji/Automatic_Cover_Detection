@@ -44,7 +44,8 @@ class Detector(object):
 
 		#For melodies, subseq= False
 		#For chromas, subseq = True
-
+		print " input 1 shape: {} \n".format(feat_song)
+		print " input 1 shape: {}\n".format(feat_query)
 		if subseq:
 			D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=subseq)
 			dist=np.sum(paired_euclidean_distances(feat_song[:,wp[:,0]], feat_query[:,wp[:,1]]))
