@@ -104,7 +104,7 @@ detector =Detector()
 #Comparing melodies
 print melody_1, 
 print "melody1"
-dist_melody = detector.compare(np.expand_dims(melody_1,axis=0),np.expand_dims(melody_2,axis=0), subseq = False)
+dist_melody = detector.compare(np.expand_dims(melody_1,axis=1),np.expand_dims(melody_2,axis=1), subseq = False)
 print('distancia melody:', dist_melody)
 
 
