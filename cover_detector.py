@@ -1,7 +1,7 @@
-from Audio_Processing.cqt_chroma_extractor import CQT_Chroma_Extractor
-from Audio_Processing.melody_extractor import Melody_Extractor
-import librosa
-import librosa.display
+#from Audio_Processing.cqt_chroma_extractor import CQT_Chroma_Extractor
+#from Audio_Processing.melody_extractor import Melody_Extractor
+#import librosa
+#import librosa.display
 import numpy as np
 import scipy.io.wavfile as wavfile
 import matplotlib.pyplot as plt
