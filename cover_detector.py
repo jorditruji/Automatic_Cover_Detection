@@ -48,15 +48,13 @@ class Detector(object):
 		if subseq:
 			D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=subseq)
 			dist=np.sum(paired_euclidean_distances(feat_song[:,wp[:,0]], feat_query[:,wp[:,1]]))
+			D, wp = 0
 		else:
-
 			feat_song = np.transpose(feat_song)
 			feat_query = np.transpose(feat_query)
 			D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=True)
-
-			print('feat song :', feat_song)
-			print('query song :', feat_query)
 			dist = self.get_dist(feat_song[:,wp[:,0]], feat_query[:,wp[:,1]])
+			D, wp = 0
 		return dist
 
 	def get_dist(self, x, y,):
@@ -90,11 +88,9 @@ for song_1,song_2 in true_samples:
 	# Load features 1
 	data_1 = np.load(song_1).item()
 	melody_1 = center_mel(np.expand_dims(data_1['melody'],axis=0))
-	chroma_1 = data_1['chroma']
 	# Load features 2
 	data_2 = np.load(song_2).item()
 	melody_2 = center_mel(np.expand_dims(data_2['melody'],axis=0))
-	chroma_2 = data_2['chroma']
 
 	# Comparing melodies
 	# Normalization
@@ -103,7 +99,11 @@ for song_1,song_2 in true_samples:
 
 	dist_melody = detector.compare(np.expand_dims(melody_1,axis=1),np.expand_dims(melody_2,axis=1), subseq = False)
 	print('distancia melody:', dist_melody)
-
+	melody_1, melody_2 = []
+	# Chromas
+	chroma_1 = data_1['chroma']
+	chroma_2 = data_2['chroma']
+	chroma_2, chroma_1 =[]
 	dist_chroma = detector.compare(chroma_1, chroma_2, subseq = True)
 	print('distancia chroma:', dist_chroma)
 	np.save('intra_'+count, [dist_melody, dist_chroma])
