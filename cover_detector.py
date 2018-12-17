@@ -50,8 +50,7 @@ class Detector(object):
 		return dist
 
 	def get_dist(self, x, y,):
-		print x.shape
-		print np.squeeze(x).shape
+
 		# Efficient distance computation no loops ;)
 		#return np.sqrt(np.dot(x, x) - 2 * np.dot(x, y) + np.dot(y, y))
 		'''
@@ -90,7 +89,7 @@ detector =Detector()
 #print('distancia chroma:', dist_chroma)
 #Comparing melodies
 
-dist_melody = detector.compare(np.expand_dims(melody_1,axis=0),np.expand_dims(melody_1,axis=0), subseq = False)
+dist_melody = detector.compare(np.expand_dims(melody_1,axis=0),np.expand_dims(melody_2,axis=0), subseq = False)
 print('distancia melody:', dist_melody)
 
 
