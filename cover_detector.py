@@ -50,7 +50,6 @@ class Detector(object):
 		else:
 			feat_song=preprocessing.scale(feat_song)
 			feat_query=preprocessing.scale(feat_query)
-			print feat_query.shape
 			D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=subseq)
 			print('feat song shape:', np.max(feat_song,axis=1).shape)
 			print('query song shape:', np.max(feat_query,axis=1).shape)
@@ -60,7 +59,8 @@ class Detector(object):
 		return dist
 
 	def get_dist(self, x, y,):
-
+		print x == y
+		print x.shape
 		# Efficient distance computation no loops ;)
 		#return np.sqrt(np.dot(x, x) - 2 * np.dot(x, y) + np.dot(y, y))
 		'''
@@ -71,6 +71,7 @@ class Detector(object):
 		'''
 
 		dist = distance.euclidean(np.squeeze(x),np.squeeze(y))
+		print dist
 		return np.sum(dist)
 
 
@@ -89,8 +90,6 @@ melody_2 = center_mel(np.expand_dims(data_2['melody'],axis=0))
 chroma_2 = data_2['chroma']
 
 
-print melody_1.shape
-print melody_2.shape
 
 
 #'Tests/lloyd_cole_and_the_commotions+Rattlesnakes+03-Rattlesnakes.npy'
