@@ -92,6 +92,7 @@ data_2 = np.load('../coversongs/covers32k/Abracadabra/steve_miller_band+Steve_Mi
 melody_2 = center_mel(np.expand_dims(data_2['melody'],axis=0))
 chroma_2 = data_2['chroma']
 
+print melody_1
 
 
 
