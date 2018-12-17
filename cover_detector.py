@@ -109,7 +109,7 @@ for song_1,song_2 in true_samples:
 	chroma_2 = data_2['chroma']
 	dist_chroma = detector.compare(chroma_1, chroma_2, subseq = True)
 	print('distancia chroma:', dist_chroma)
-	np.save('intra_'+count, [dist_melody, dist_chroma])
+	np.save('intra_'+str(count), [dist_melody, dist_chroma])
 
 
 
@@ -135,7 +135,7 @@ for song_1,song_2 in false_samples:
 
 	dist_chroma = detector.compare(chroma_1, chroma_2, subseq = True)
 	print('distancia chroma:', dist_chroma)
-	np.save('inter'+count, [dist_melody, dist_chroma])
+	np.save('inter'+str(count), [dist_melody, dist_chroma])
 
 '''
 
