@@ -46,8 +46,7 @@ class Detector(object):
 			D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=subseq)
 			dist=np.sum(paired_euclidean_distances(feat_song[:,wp[:,0]], feat_query[:,wp[:,1]]))
 		else:
-			feat_song=preprocessing.scale(feat_song)
-			feat_query=preprocessing.scale(feat_query)
+
 			feat_song = np.transpose(feat_song)
 			feat_query = np.transpose(feat_query)
 			D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=True)
@@ -97,8 +96,10 @@ detector =Detector()
 #dist_chroma = detector.compare(chroma_1, chroma_2, subseq = False)
 #print('distancia chroma:', dist_chroma)
 #Comparing melodies
-print melody_1, 
+print melody_1 
 print "melody1"
+melody_1=preprocessing.scale(melody_1)
+melody_2=preprocessing.scale(melody_2)	
 dist_melody = detector.compare(np.expand_dims(melody_1,axis=1),np.expand_dims(melody_1,axis=1), subseq = False)
 print('distancia melody:', dist_melody)
 
