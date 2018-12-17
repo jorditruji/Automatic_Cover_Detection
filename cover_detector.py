@@ -11,6 +11,11 @@ import time
 import matplotlib.pyplot as plt
 from sklearn.metrics.pairwise import euclidean_distances, paired_euclidean_distances
 
+# Centering:
+def center_mel(melody):
+	samples = melody.shape[1]
+	middle = samples/2
+	return melody[:,middle-6000:middle+6000]
 
 class Detector(object):
 	"""
@@ -61,17 +66,19 @@ class Detector(object):
 #load file 1
 
 data_1 = np.load('../coversongs/covers32k/Rattlesnakes/tori_amos+Strange_Little_Girls+06-Rattlesnakes.npy').item()
-melody_1 = np.expand_dims(data_1['melody'],axis=0)
+melody_1 = center_mel(np.expand_dims(data_1['melody'],axis=0))
 chroma_1 = data_1['chroma']
 
 
 data_2 = np.load('../coversongs/covers32k/Rattlesnakes/lloyd_cole_and_the_commotions+Rattlesnakes+03-Rattlesnakes.npy').item()
-melody_2 = np.expand_dims(data_2['melody'],axis=0)
+melody_2 = center_mel(np.expand_dims(data_2['melody'],axis=0))
 chroma_2 = data_2['chroma']
 
 
 print melody_1.shape
-print chroma_1.shape
+print melody_2.shape
+
+
 #'Tests/lloyd_cole_and_the_commotions+Rattlesnakes+03-Rattlesnakes.npy'
 detector =Detector()
 #Comparing chromas
