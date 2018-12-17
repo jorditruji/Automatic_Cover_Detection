@@ -104,7 +104,7 @@ dist_melody = detector.compare(np.expand_dims(melody_1,axis=0),np.expand_dims(me
 print('distancia melody:', dist_melody)
 
 
-dist_melody = detector.compare(chroma_2, chroma_2, subseq = True)
+dist_melody = detector.compare(chroma_1, chroma_2, subseq = True)
 print('distancia chroma:', dist_melody)
 
 
