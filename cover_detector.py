@@ -17,6 +17,7 @@ from Data_Management.dataset import Dataset
 
 # Centering:
 def crop(melody):
+	print melody.shape
 	if melody.shape>40000:
 		return melody[0:40000]
 	else:
