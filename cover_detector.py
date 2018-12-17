@@ -54,8 +54,9 @@ class Detector(object):
 			feat_query=preprocessing.scale(feat_query)
 			print('feat song :', feat_song)
 			print('query song :', feat_query)
-			print np.transpose(feat_song).shape
-			D, wp = librosa.sequence.dtw(np.transpose(feat_song), np.transpose(feat_query), subseq=True)
+			feat_song = np.transpose(feat_song)
+			feat_query = np.transpose(feat_query)
+			D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=True)
 
 			print('feat song :', feat_song)
 			print('query song :', feat_query)
