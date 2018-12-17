@@ -96,10 +96,11 @@ detector =Detector()
 #dist_chroma = detector.compare(chroma_1, chroma_2, subseq = False)
 #print('distancia chroma:', dist_chroma)
 #Comparing melodies
-print melody_1 
-print "melody1"
-melody_1=preprocessing.scale(melody_1)
-melody_2=preprocessing.scale(melody_2)	
+melody_1 = np.divide(melody_1-np.mean(melody_1),np.std(melody_1))
+melody_2 = np.divide(melody_2-np.mean(melody_2),np.std(melody_2))
+
+
+
 dist_melody = detector.compare(np.expand_dims(melody_1,axis=1),np.expand_dims(melody_1,axis=1), subseq = False)
 print('distancia melody:', dist_melody)
 
