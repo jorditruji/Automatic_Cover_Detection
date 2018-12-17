@@ -12,11 +12,16 @@ import matplotlib.pyplot as plt
 from sklearn.metrics.pairwise import euclidean_distances, paired_euclidean_distances
 
 # Centering:
-def center_mel(melody):
+def center_mel2(melody):
 	samples = melody.shape[1]
 	middle = samples/2
 	return melody[:,middle-6000:middle+6000]
 
+# Centering:
+def center_mel(melody):
+	samples = melody.shape[1]
+	middle = samples/2
+	return melody[melody[:]!=0]
 class Detector(object):
 	"""
 	Loads dataset
