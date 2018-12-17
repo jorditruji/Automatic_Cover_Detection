@@ -11,7 +11,7 @@ import time
 import matplotlib.pyplot as plt
 from sklearn.metrics.pairwise import euclidean_distances, paired_euclidean_distances
 from sklearn import preprocessing
-
+from scipy.spatial import distance
 # Centering:
 def center_mel2(melody):
 	samples = melody.shape[1]
@@ -69,7 +69,8 @@ class Detector(object):
 
 		dist = np.sum(dist)
 		'''
-		dist = euclidean_distances(np.squeeze(x),np.squeeze(y))
+
+		dist = distance.euclidean(np.squeeze(x),np.squeeze(y))
 		return np.sum(dist)
 
 
