@@ -39,10 +39,10 @@ class Detector(object):
 		#For melodies, subseq= False
 		#For chromas, subseq = True
 		D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=subseq)
-		print('feat song shape:', np.max(feat_song,axis=0).shape)
-		print('query song shape:', np.max(feat_query,axis=0).shape)
-		print('feat song shape:', np.max(feat_song,axis=0))
-		print('query song shape:', np.max(feat_query,axis=0))
+		print('feat song shape:', np.max(feat_song,axis=1).shape)
+		print('query song shape:', np.max(feat_query,axis=1).shape)
+		print('feat song shape:', np.max(feat_song,axis=1))
+		print('query song shape:', np.max(feat_query,axis=1))
 		if subseq:
 			dist=np.sum(paired_euclidean_distances(feat_song[:,wp[:,0]], feat_query[:,wp[:,1]]))
 		else:
@@ -50,7 +50,8 @@ class Detector(object):
 		return dist
 
 	def get_dist(self, x, y,):
-		print x==y
+		print x.shape
+		print x[:].shape
 		# Efficient distance computation no loops ;)
 		#return np.sqrt(np.dot(x, x) - 2 * np.dot(x, y) + np.dot(y, y))
 		'''
