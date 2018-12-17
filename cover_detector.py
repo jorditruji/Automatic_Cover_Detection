@@ -53,7 +53,7 @@ class Detector(object):
 			feat_song=preprocessing.scale(feat_song)
 			feat_query=preprocessing.scale(feat_query)
 			print feat_song == feat_query
-			D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=subseq)
+			D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=True)
 			print('feat song shape:', np.max(feat_song,axis=0).shape)
 			print('query song shape:', np.max(feat_query,axis=0).shape)
 			print('feat song shape:', feat_song)
@@ -92,7 +92,6 @@ data_2 = np.load('../coversongs/covers32k/Abracadabra/steve_miller_band+Steve_Mi
 melody_2 = center_mel(np.expand_dims(data_2['melody'],axis=0))
 chroma_2 = data_2['chroma']
 
-print melody_1
 
 
 
