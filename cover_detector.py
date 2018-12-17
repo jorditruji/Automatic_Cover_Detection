@@ -39,6 +39,8 @@ class Detector(object):
 		#For melodies, subseq= False
 		#For chromas, subseq = True
 		D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=subseq)
+		print('feat song shape:', np.max(feat_song,axis=0).shape)
+		print('query song shape:', np.max(feat_query,axis=0).shape)
 		print('feat song shape:', np.max(feat_song,axis=0))
 		print('query song shape:', np.max(feat_query,axis=0))
 		if subseq:
