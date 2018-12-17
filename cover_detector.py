@@ -10,6 +10,7 @@ from Audio_Processing.audio_utils import *
 import time
 import matplotlib.pyplot as plt
 from sklearn.metrics.pairwise import euclidean_distances, paired_euclidean_distances
+from sklearn import preprocessing
 
 # Centering:
 def center_mel2(melody):
@@ -38,14 +39,23 @@ class Detector(object):
 
 		#For melodies, subseq= False
 		#For chromas, subseq = True
-		D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=subseq)
-		print('feat song shape:', np.max(feat_song,axis=1).shape)
-		print('query song shape:', np.max(feat_query,axis=1).shape)
-		print('feat song shape:', np.max(feat_song,axis=1))
-		print('query song shape:', np.max(feat_query,axis=1))
+
 		if subseq:
+			D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=subseq)
+			print('feat song shape:', np.max(feat_song,axis=1).shape)
+			print('query song shape:', np.max(feat_query,axis=1).shape)
+			print('feat song shape:', np.max(feat_song,axis=1))
+			print('query song shape:', np.max(feat_query,axis=1))
 			dist=np.sum(paired_euclidean_distances(feat_song[:,wp[:,0]], feat_query[:,wp[:,1]]))
 		else:
+			feat_song=preprocessing.scale(feat_song)
+			feat_query=preprocessing.scale(feat_query)
+			print feat_query.shape
+			D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=subseq)
+			print('feat song shape:', np.max(feat_song,axis=1).shape)
+			print('query song shape:', np.max(feat_query,axis=1).shape)
+			print('feat song shape:', np.max(feat_song,axis=1))
+			print('query song shape:', np.max(feat_query,axis=1))
 			dist = self.get_dist(feat_song[:,wp[:,0]], feat_query[:,wp[:,1]])
 		return dist
 
