@@ -43,8 +43,7 @@ class Detector(object):
 		print('query song shape:', feat_query.shape)
 		print('wp shape:', wp)
 
-		print feat_song[:,wp[:,0]]
-		print  feat_query[:,wp[:,1]]
+
 		if subseq:
 			dist=np.sum(paired_euclidean_distances(feat_song[:,wp[:,0]], feat_query[:,wp[:,1]]))
 		else:
@@ -91,11 +90,11 @@ detector =Detector()
 #print('distancia chroma:', dist_chroma)
 #Comparing melodies
 
-dist_melody = detector.compare(melody_1,melody_2, subseq = False)
+dist_melody = detector.compare(np.expand_dims(melody_1,axis=0),np.expand_dims(melody_1,axis=0), subseq = False)
 print('distancia melody:', dist_melody)
 
 
-dist_melody = detector.compare(chroma_1, chroma_2, subseq = True)
+dist_melody = detector.compare(chroma_1, chroma_1, subseq = True)
 print('distancia chroma:', dist_melody)
 print chroma_1
 print chroma_2
