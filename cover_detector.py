@@ -111,6 +111,7 @@ for song_1,song_2 in true_samples:
 	print('distancia chroma:', dist_chroma)
 	np.save('intra_'+str(count), [dist_melody, dist_chroma])
 	count+=1
+	print count
 
 
 
