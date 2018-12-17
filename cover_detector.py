@@ -9,7 +9,7 @@ from scipy import signal
 from Audio_Processing.audio_utils import *
 import time
 import matplotlib.pyplot as plt
-from sklearn.metrics.pairwise import euclidean_distances
+from sklearn.metrics.pairwise import euclidean_distances, paired_euclidean_distances
 
 
 class Detector(object):
@@ -31,17 +31,18 @@ class Detector(object):
 		D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=subseq)
 		print('feat song shape:', feat_song.shape)
 		print('query song shape:', feat_query.shape)
-		print('wp shape:', wp.shape)
-		if subseq == True: #melodies
-			#feat_song = np.expand_dims(feat_song, axis=1)
-			#feat_query = np.expand_dims(feat_query, axis=1)
-			dist = self.get_dist(feat_song[wp[0,:]], feat_query[wp[1,:]])
-		if subseq == False: #chromas
+		print('wp shape:', wp)
+
+		print feat_song[:,wp[:,0]]
+		print  feat_query[:,wp[:,1]]
+		if subseq:
+			dist=np.sum(paired_euclidean_distances(feat_song[:,wp[:,0]], feat_query[:,wp[:,1]]))
+		else:
 			dist = self.get_dist(feat_song[:,wp[:,0]], feat_query[:,wp[:,1]])
 		return dist
 
-	def get_dist(self, x, y):
-		print x[0].shape
+	def get_dist(self, x, y,):
+		print x.shape
 		# Efficient distance computation no loops ;)
 		#return np.sqrt(np.dot(x, x) - 2 * np.dot(x, y) + np.dot(y, y))
 		'''
@@ -60,24 +61,41 @@ class Detector(object):
 #load file 1
 
 data_1 = np.load('../coversongs/covers32k/Rattlesnakes/tori_amos+Strange_Little_Girls+06-Rattlesnakes.npy').item()
-melody_1 = data_1['melody']
+melody_1 = np.expand_dims(data_1['melody'],axis=0)
 chroma_1 = data_1['chroma']
 
 
 data_2 = np.load('../coversongs/covers32k/Rattlesnakes/lloyd_cole_and_the_commotions+Rattlesnakes+03-Rattlesnakes.npy').item()
-melody_2 = data_2['melody']
+melody_2 = np.expand_dims(data_2['melody'],axis=0)
 chroma_2 = data_2['chroma']
 
+
+print melody_1.shape
+print chroma_1.shape
 #'Tests/lloyd_cole_and_the_commotions+Rattlesnakes+03-Rattlesnakes.npy'
 detector =Detector()
-
 #Comparing chromas
 #dist_chroma = detector.compare(chroma_1, chroma_2, subseq = False)
 #print('distancia chroma:', dist_chroma)
 #Comparing melodies
-dist_melody = detector.compare(melody_1,melody_1, subseq = False)
+
+dist_melody = detector.compare(melody_1,melody_2, subseq = False)
 print('distancia melody:', dist_melody)
 
 
-dist_melody = detector.compare(chroma_2, chroma_2, subseq = False)
+dist_melody = detector.compare(chroma_1, chroma_2, subseq = True)
 print('distancia chroma:', dist_melody)
+print chroma_1
+print chroma_2
+'''
+
+0,1,0,0
+1,0,0,0
+0,1,1,1
+
+
+1,0
+0,0
+1,1
+
+'''
