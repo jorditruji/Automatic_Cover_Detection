@@ -22,6 +22,7 @@ def center_mel2(melody):
 def center_mel(melody):
 	samples = melody.shape[1]
 	middle = samples/2
+	print "0's",melody[melody[:]==0].shape
 	return melody[melody[:]!=0]
 class Detector(object):
 	"""
