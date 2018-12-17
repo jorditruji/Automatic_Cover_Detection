@@ -40,7 +40,7 @@ class Detector(object):
 		#For chromas, subseq = True
 		D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=subseq)
 		print('feat song shape:', np.max(feat_song))
-		print('query song shape:', np.max(feat_query.shape))
+		print('query song shape:', np.max(feat_query))
 		print('wp shape:', wp)
 
 
@@ -90,11 +90,11 @@ detector =Detector()
 #print('distancia chroma:', dist_chroma)
 #Comparing melodies
 
-dist_melody = detector.compare(np.expand_dims(melody_1,axis=0),np.expand_dims(melody_2,axis=0), subseq = False)
+dist_melody = detector.compare(np.expand_dims(melody_1,axis=0),np.expand_dims(melody_1,axis=0), subseq = False)
 print('distancia melody:', dist_melody)
 
 
-dist_melody = detector.compare(chroma_1, chroma_2, subseq = True)
+dist_melody = detector.compare(chroma_1, chroma_1, subseq = True)
 print('distancia chroma:', dist_melody)
 print chroma_1
 print chroma_2
