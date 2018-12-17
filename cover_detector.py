@@ -48,7 +48,7 @@ class Detector(object):
 		return dist
 
 	def get_dist(self, x, y,):
-		print x.shape
+		print x==y
 		# Efficient distance computation no loops ;)
 		#return np.sqrt(np.dot(x, x) - 2 * np.dot(x, y) + np.dot(y, y))
 		'''
