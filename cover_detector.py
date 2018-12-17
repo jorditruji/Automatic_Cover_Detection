@@ -51,7 +51,7 @@ class Detector(object):
 
 	def get_dist(self, x, y,):
 		print x.shape
-		print x[:].shape
+		print np.squeeze(x).shape
 		# Efficient distance computation no loops ;)
 		#return np.sqrt(np.dot(x, x) - 2 * np.dot(x, y) + np.dot(y, y))
 		'''
@@ -60,7 +60,7 @@ class Detector(object):
 
 		dist = np.sum(dist)
 		'''
-		dist = euclidean_distances(x,y)
+		dist = euclidean_distances(np.squeeze(x),np.squeeze(y))
 		return np.sum(dist)
 
 
