@@ -106,10 +106,12 @@ for song_1,song_2 in true_samples:
 
 	# Comparing melodies
 	# Normalization
-	melody_1 = get_deltas(melody_1)
-	melody_2 = get_deltas(melody_2)
+
 	melody_1 = crop(np.divide(melody_1-np.mean(melody_1),np.std(melody_1)))
 	melody_2 = crop(np.divide(melody_2-np.mean(melody_2),np.std(melody_2)))
+
+	melody_1 = get_deltas(melody_1)
+	melody_2 = get_deltas(melody_2)
 
 	dist_melody = detector.compare(np.expand_dims(melody_1,axis=1),np.expand_dims(melody_2,axis=1), subseq = False)
 	print('distancia melody:', dist_melody)
