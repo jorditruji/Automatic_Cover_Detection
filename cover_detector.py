@@ -86,7 +86,7 @@ detector = Detector()
 
 # Sample data, not really shuffled ;)
 true_samples, false_samples = dataset.shuffle_data()
-
+'''
 count = 0
 # Intra class distances:
 for song_1,song_2 in true_samples:
@@ -114,7 +114,7 @@ for song_1,song_2 in true_samples:
 	print count
 
 
-
+'''
 count = 0
 # Inter class distances:
 for song_1,song_2 in false_samples:
@@ -129,8 +129,8 @@ for song_1,song_2 in false_samples:
 
 	# Comparing melodies
 	# Normalization
-	melody_1 = np.divide(melody_1-np.mean(melody_1),np.std(melody_1))
-	melody_2 = np.divide(melody_2-np.mean(melody_2),np.std(melody_2))
+	melody_1 = crop(np.divide(melody_1-np.mean(melody_1),np.std(melody_1)))
+	melody_2 = crop(np.divide(melody_2-np.mean(melody_2),np.std(melody_2)))
 
 	dist_melody = detector.compare(np.expand_dims(melody_1,axis=1),np.expand_dims(melody_2,axis=1), subseq = False)
 	print('distancia melody:', dist_melody)
