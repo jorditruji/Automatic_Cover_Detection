@@ -57,7 +57,8 @@ class Detector(object):
 			feat_song = np.transpose(feat_song)
 			feat_query = np.transpose(feat_query)
 			D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=True)
-			dist = self.get_dist(feat_song[:,wp[:,0]], feat_query[:,wp[:,1]])
+			dist = self.get_dist(feat_song[:,wp[:,0]], feat_query[:,wp[:,1]])/feat_song[:,wp[:,0]].shape[1]
+			print feat_song[:,wp[:,0]].shape
 			D = 0
 			wp = 0
 		return dist
@@ -76,7 +77,7 @@ class Detector(object):
 
 		dist = distance.euclidean(np.squeeze(x),np.squeeze(y))
 		print dist
-		return np.sum(dist)
+		return np.divide(np.sum(dist),np.squeeze(x).shape)
 
 
 
@@ -86,7 +87,7 @@ detector = Detector()
 
 # Sample data, not really shuffled ;)
 true_samples, false_samples = dataset.shuffle_data()
-'''
+
 count = 0
 # Intra class distances:
 for song_1,song_2 in true_samples:
@@ -114,7 +115,7 @@ for song_1,song_2 in true_samples:
 	print count
 
 
-'''
+
 count = 0
 # Inter class distances:
 for song_1,song_2 in false_samples:
