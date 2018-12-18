@@ -52,13 +52,14 @@ class Detector(object):
 			D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=subseq)
 			dist=np.sum(paired_euclidean_distances(feat_song[:,wp[:,0]], feat_query[:,wp[:,1]]))
 			D = 0
+			print feat_song[:,wp[:,0]].shape[1]
+			dist = dist/feat_song[:,wp[:,0]].shape[1]
 			wp = 0
 		else:
 			feat_song = np.transpose(feat_song)
 			feat_query = np.transpose(feat_query)
 			D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=True)
-			dist = self.get_dist(feat_song[:,wp[:,0]], feat_query[:,wp[:,1]])/feat_song[:,wp[:,0]].shape[1]
-			print feat_song[:,wp[:,0]].shape
+			dist = self.get_dist(feat_song[:,wp[:,0]], feat_query[:,wp[:,1]])
 			D = 0
 			wp = 0
 		return dist
@@ -77,7 +78,7 @@ class Detector(object):
 
 		dist = distance.euclidean(np.squeeze(x),np.squeeze(y))
 		print dist
-		return np.divide(np.sum(dist),np.squeeze(x).shape)
+		return np.divide(np.sum(dist)**2,np.squeeze(x).shape)
 
 
 
