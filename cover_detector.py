@@ -83,7 +83,7 @@ class Detector(object):
 
 def get_deltas(matrix):
 	print "Pre-delta shape: {}".format(matrix.shape)
-	deltas = librosa.feature.delta(matrix,mode ='nearest')
+	deltas = librosa.feature.delta(matrix,order=2, mode ='nearest')
 	print "Pre-delta shape: {}".format(deltas.shape)
 	return deltas
 
@@ -125,6 +125,8 @@ for song_1,song_2 in true_samples:
 	print('distancia chroma:', dist_chroma)
 	np.save('intra_'+str(count), [dist_melody, dist_chroma])
 	count+=1
+	if count == 19:
+		break
 	print count
 
 
@@ -153,6 +155,8 @@ for song_1,song_2 in false_samples:
 	print('distancia chroma:', dist_chroma)
 	np.save('inter'+str(count), [dist_melody, dist_chroma])
 	count+=1
+	if count == 19:
+		break
 
 '''
 
