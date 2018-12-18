@@ -13,7 +13,7 @@ from sklearn.metrics.pairwise import euclidean_distances, paired_euclidean_dista
 from sklearn import preprocessing
 from scipy.spatial import distance
 from Data_Management.dataset import Dataset
-
+import librosa
 
 # Centering:
 def crop(melody):
@@ -52,7 +52,7 @@ class Detector(object):
 			D, wp = librosa.sequence.dtw(feat_song, feat_query, subseq=subseq)
 			dist=np.sum(paired_euclidean_distances(feat_song[:,wp[:,0]], feat_query[:,wp[:,1]]))
 			D = 0
-			dist = np.divide(dist,feat_song[:,wp[:,0]].shape[1])
+			dist = np.divide(dist**2,feat_song[:,wp[:,0]].shape[1])
 			wp = 0
 		else:
 			feat_song = np.transpose(feat_song)
@@ -81,6 +81,12 @@ class Detector(object):
 
 
 
+def get_deltas(matrix):
+	print "Pre-delta shape: {}".format(matrix.shape)
+	deltas = librosa.feature.delta(matrix,order=2, mode ='nearest')
+	print "Pre-delta shape: {}".format(deltas.shape)
+	return deltas
+
 # Instantiate main support classes
 dataset = Dataset()
 detector = Detector()
@@ -100,18 +106,27 @@ for song_1,song_2 in true_samples:
 
 	# Comparing melodies
 	# Normalization
+
 	melody_1 = crop(np.divide(melody_1-np.mean(melody_1),np.std(melody_1)))
 	melody_2 = crop(np.divide(melody_2-np.mean(melody_2),np.std(melody_2)))
+
+	melody_1 = get_deltas(melody_1)
+	melody_2 = get_deltas(melody_2)
 
 	dist_melody = detector.compare(np.expand_dims(melody_1,axis=1),np.expand_dims(melody_2,axis=1), subseq = False)
 	print('distancia melody:', dist_melody)
 	# Chromas
 	chroma_1 = data_1['chroma']
 	chroma_2 = data_2['chroma']
+
+	chroma_1 = get_deltas(chroma_1)
+	chroma_2 = get_deltas(chroma_2)
 	dist_chroma = detector.compare(chroma_1, chroma_2, subseq = True)
 	print('distancia chroma:', dist_chroma)
 	np.save('intra_'+str(count), [dist_melody, dist_chroma])
 	count+=1
+	if count == 19:
+		break
 	print count
 
 
@@ -140,6 +155,8 @@ for song_1,song_2 in false_samples:
 	print('distancia chroma:', dist_chroma)
 	np.save('inter'+str(count), [dist_melody, dist_chroma])
 	count+=1
+	if count == 19:
+		break
 
 '''
 
