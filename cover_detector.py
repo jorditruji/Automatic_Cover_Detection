@@ -83,7 +83,7 @@ class Detector(object):
 
 def get_deltas(matrix):
 	print "Pre-delta shape: {}".format(matrix.shape)
-	deltas = librosa.feature.delta(matrix)
+	deltas = librosa.feature.delta(matrix,mode ='nearest')
 	print "Pre-delta shape: {}".format(deltas.shape)
 	return deltas
 
