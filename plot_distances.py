@@ -9,26 +9,27 @@ def load_dist (path):
 	distances_files=glob(path)
 	for file in distances_files:
 		dist = np.load(file)
-		mel_dist.append(dist[0])
+		mel_dist.append(dist[0][0])
 		chroma_dist.append(dist[1])
 	return mel_dist, chroma_dist
 
 
 
-intra_dist_mel,intra_dist_chroma = load_dist('intra_dist/*.npy')
-inter_dist_mel, inter_dist_chroma = load_dist('inter_dist/*.npy')
+intra_dist_mel,intra_dist_chroma = load_dist('no_oder_intra/*.npy')
+inter_dist_mel, inter_dist_chroma = load_dist('no_oder_inter/*.npy')
 
 max_ = np.max(np.concatenate((np.array(inter_dist_mel),np.array(intra_dist_mel)), axis = 0))
 min_ = np.min(np.concatenate((np.array(inter_dist_mel),np.array(intra_dist_mel)), axis = 0))
 margin = max_ - min_
-bins = np.arange(min_, max_,margin/34 )
+n_bins=34
+bins = np.arange(min_, max_,margin/n_bins )
 plt.figure()
 plt.hist(inter_dist_mel,  bins=bins, alpha=0.5,color = 'red' ,label='inter-class')
 plt.hist(intra_dist_mel, bins=bins, alpha=0.5, label='intra-class', color = 'blue')
 
 plt.legend(loc='upper right')
 
-plt.title("Distribution (n_pairs = 160)")
+plt.title("melody dist distribution (n_pairs = 160)")
 
 plt.show()
 
