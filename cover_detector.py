@@ -126,7 +126,7 @@ for song_1,song_2 in true_samples:
 	np.save('intra_'+str(count), [dist_melody, dist_chroma])
 	count+=1
 	if count == 19:
-		break
+		print "No paris"
 	print count
 
 
@@ -156,7 +156,7 @@ for song_1,song_2 in false_samples:
 	np.save('inter'+str(count), [dist_melody, dist_chroma])
 	count+=1
 	if count == 19:
-		break
+		print "no paris"
 
 '''
 
